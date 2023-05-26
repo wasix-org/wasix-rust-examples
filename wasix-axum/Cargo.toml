@@ -1,0 +1,19 @@
+[package]
+name = "wasix-axum"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+axum = { version = "=0.6.9", features = ["tokio", "json"] }
+serde = { version = "1.0.160", features = ["derive"] }
+tracing = "0.1.37"
+tracing-subscriber = { version = "0.3.16", features = ["fmt"] }
+
+# NOTE: We need to pin and replace some dependencies to achieve wasix compatibility.
+tokio = { version = "=1.24.2", default-features = false, features = ["full"] }
+parking_lot = { version = "=0.12.1", features = ["nightly"] }
+
+[patch.crates-io]
+socket2 = { git = "https://github.com/john-sharratt/socket2.git", branch = "v0.4.7" }
+libc = { git = "https://github.com/john-sharratt/libc.git" }
+tokio = { git = "https://github.com/john-sharratt/tokio.git", branch = "wasix-1.24.2" }
