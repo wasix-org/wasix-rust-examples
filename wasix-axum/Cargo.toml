@@ -1,5 +1,5 @@
 [package]
-name = "wasix-axum-starter"
+name = "wasix-axum"
 version = "0.1.0"
 edition = "2021"
 
