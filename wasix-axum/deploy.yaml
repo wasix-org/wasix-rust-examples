@@ -1,0 +1,6 @@
+kind: wasmer.io/App.v1
+meta:
+  name: wasix-org/axum-wasix-starter
+spec:
+  workload:
+    source: wasix-org/axum-wasix-starter@0.1.0
