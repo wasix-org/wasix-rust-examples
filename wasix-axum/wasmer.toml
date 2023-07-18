@@ -1,0 +1,16 @@
+[package]
+name = "wasix-org/wasix-axum"
+version = "0.1.0"
+description = "Sample Axum server for Wasmer Edge"
+license = "MIT"
+wasmer-extra-flags = "--net --enable-threads --enable-bulk-memory"
+
+[[module]]
+name = "axum-wasix-starter"
+source = "./target/wasm32-wasmer-wasi/release/wasix-axum.wasm"
+abi = "wasi"
+
+[[command]]
+name = "proxy"
+module = "wasix-axum"
+runner = "https://webc.org/runner/wasi"
