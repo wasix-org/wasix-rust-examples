@@ -1,0 +1,33 @@
+[package]
+name = "wasix-reqwest-proxy"
+authors = ["Rudra Arora: rudra@wasmer.io"]
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+tokio = { git = "https://github.com/wasix-org/tokio.git", branch = "epoll", default-features = false, features = [
+    "rt-multi-thread",
+    "macros",
+    "fs",
+    "io-util",
+    "net",
+    "signal",
+] }
+reqwest = { git = "https://github.com/wasix-org/reqwest.git", default-features = false, features = [
+    "json",
+    "rustls-tls",
+] }
+anyhow = { version = "1.0.71" }
+hyper = { git = "https://github.com/wasix-org/hyper.git", branch = "v0.14.27", features = [
+    "server",
+] }
+
+
+[patch.crates-io]
+socket2 = { git = "https://github.com/wasix-org/socket2.git", branch = "v0.4.9" }
+libc = { git = "https://github.com/wasix-org/libc.git" }
+tokio = { git = "https://github.com/wasix-org/tokio.git", branch = "epoll" }
+rustls = { git = "https://github.com/wasix-org/rustls.git", branch = "v0.21.5" }
+hyper = { git = "https://github.com/wasix-org/hyper.git", branch = "v0.14.27" }
