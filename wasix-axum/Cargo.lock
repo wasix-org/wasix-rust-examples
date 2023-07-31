@@ -203,7 +203,7 @@ dependencies = [
  "httpdate",
  "itoa",
  "pin-project-lite",
- "socket2",
+ "socket2 0.4.9",
  "tokio",
  "tower-service",
  "tracing",
@@ -295,7 +295,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4161fcb6d602d4d2081af7c3a45852d875a03dd337a6bfdd6e06407b61342a43"
 dependencies = [
  "hermit-abi",
- "libc 0.2.139 (git+https://github.com/wasix-org/libc.git)",
+ "libc 0.2.139 (git+https://github.com/wasix-org/libc.git?branch=master)",
 ]
 
 [[package]]
@@ -327,7 +327,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "93f00c865fe7cabf650081affecd3871070f26767e7b2070a3ffae14c654b447"
 dependencies = [
  "cfg-if",
- "libc 0.2.139 (git+https://github.com/wasix-org/libc.git)",
+ "libc 0.2.139 (git+https://github.com/wasix-org/libc.git?branch=master)",
  "redox_syscall",
  "smallvec",
  "windows-targets",
@@ -484,7 +484,7 @@ version = "1.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d8229b473baa5980ac72ef434c4415e70c4b5e71b423043adb4ba059f89c99a1"
 dependencies = [
- "libc 0.2.139 (git+https://github.com/wasix-org/libc.git)",
+ "libc 0.2.139 (git+https://github.com/wasix-org/libc.git?branch=master)",
 ]
 
 [[package]]
@@ -500,6 +500,15 @@ source = "git+https://github.com/wasix-org/socket2.git?branch=v0.4.7#92baf46b640
 dependencies = [
  "libc 0.2.139 (git+https://github.com/wasix-org/libc.git)",
  "windows-sys",
+]
+
+[[package]]
+name = "socket2"
+version = "0.4.9"
+source = "git+https://github.com/wasix-org/socket2.git?branch=v0.4.9#a701d8559c11746b4facf3a6aa1b1de271e4ce16"
+dependencies = [
+ "libc 0.2.139 (git+https://github.com/wasix-org/libc.git)",
+ "winapi",
 ]
 
 [[package]]
@@ -555,7 +564,7 @@ dependencies = [
  "parking_lot",
  "pin-project-lite",
  "signal-hook-registry",
- "socket2",
+ "socket2 0.4.7",
  "tokio-macros",
  "winapi",
 ]
