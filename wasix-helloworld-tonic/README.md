@@ -13,25 +13,25 @@ cargo wasix build
 ### Server
 
 ```shell
-wasmer run target/wasm32-wasmer-wasi/debug/helloworld-client.wasm --net
+$ wasmer run target/wasm32-wasmer-wasi/debug/helloworld-client.wasm --net
+Server listening on 127.0.0.1:50051
 ```
 
 ### client
 
-
-> ⚠️
-> Note: The client shows an error for now but the server is fully compatiable.
-
-```
-wasmer run target/wasm32-wasmer-wasi/debug/helloworld-server.wasm --net
-```
-
-Meanwhile you can use `grpcurl` to verify the server:
+> Note: The client works only for IPv4 addresses.
 
 ```shell
-grpcurl -plaintext -import-path ./proto -proto helloworld.proto -d '{"name": "Tonic"}' '[::1]:50051' helloworld.Greeter/SayHello
+$ wasmer run target/wasm32-wasmer-wasi/debug/helloworld-server.wasm --net
+
+RESPONSE=Response { metadata: MetadataMap { headers: {"content-type": "application/grpc", "date": "Sat, 12 Aug 2023 23:48:29 GMT", "grpc-status": "0"} }, message: HelloReply { message: "Hello Tonic!" }, extensions: Extensions }
+```
+
+Or you can use `grpcurl` to verify the server:
+
+```shell
+$ grpcurl -plaintext -import-path ./proto -proto helloworld.proto -d '{"name": "Tonic"}' '[::1]:50051' helloworld.Greeter/SayHello
 {
   "message": "Hello Tonic!"
 }
 ```
-
