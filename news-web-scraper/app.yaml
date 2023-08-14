@@ -1,0 +1,5 @@
+---
+kind: wasmer.io/App.v0
+name: news-scraper
+app_id: da_WK0DIkt5Ur1K
+package: wasmer/news-scraper@0.1.1

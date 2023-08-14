@@ -1,0 +1,16 @@
+[package]
+name = "wasmer/news-scraper"
+version = "0.1.1"
+description = "Package to showcase a news scraper on wasmer edge"
+wasmer-extra-flags = "--net --enable-threads --enable-bulk-memory"
+
+[dependencies]
+
+[[module]]
+name = "news-scraper"
+source = "target/wasm32-wasmer-wasi/release/news-scraper.wasm"
+
+[[command]]
+name = "news-scraper"
+module = "news-scraper"
+runner = "wasi@unstable_"
