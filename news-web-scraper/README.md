@@ -1,6 +1,6 @@
-# A web scraper for news articles on independent.ie
+# A web scraper for news headlines on Hacker News
 
-This project is a web scraper for news articles on independent.ie. It is written in Rust and uses the `reqwest` and `scraper` crates.
+This project is a web scraper for news headlines on Hacker News. It is written in Rust and uses the `reqwest` and `scraper` crates.
 
 The objective of this project is to learn compilation and deployment of Rust projects to WASIX and Wasmer Edge.
 
