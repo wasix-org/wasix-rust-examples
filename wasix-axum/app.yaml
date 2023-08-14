@@ -1,6 +1,5 @@
-kind: wasmer.io/App.v1
-meta:
-  name: wasix-org/axum-wasix-starter
-spec:
-  workload:
-    source: wasix-org/axum-wasix-starter@0.1.0
+---
+kind: wasmer.io/App.v0
+name: wasix-axum-example
+app_id: da_VnP7IptBUqDK
+package: wasmer/wasix-axum-example@0.1.3

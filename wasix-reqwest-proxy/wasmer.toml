@@ -1,0 +1,16 @@
+[package]
+name = "wasmer/wasix-reqwest-proxy-example"
+version = "0.1.1"
+description = "Package to showcase a news scraper on wasmer edge"
+wasmer-extra-flags = "--net --enable-threads --enable-bulk-memory"
+
+[dependencies]
+
+[[module]]
+name = "wasix-reqwest-proxy"
+source = "target/wasm32-wasmer-wasi/release/wasix-reqwest-proxy.wasm"
+
+[[command]]
+name = "wasix-reqwest-proxy"
+module = "wasix-reqwest-proxy"
+runner = "wasi@unstable_"

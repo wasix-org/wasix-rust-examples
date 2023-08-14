@@ -34,3 +34,7 @@ $ wasmer deploy
 ```
 
 Checkout the full tutorial [here](http://wasix.org/docs/language-guide/rust/tutorials/wasix-axum)
+
+This project is available on wasmer edge:
+
+> Available on https://wasix-axum-example.wasmer.app

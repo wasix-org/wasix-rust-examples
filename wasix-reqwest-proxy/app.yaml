@@ -1,0 +1,5 @@
+---
+kind: wasmer.io/App.v0
+name: wasix-reqwest-proxy-example
+app_id: da_vRxJIdtAUQ4K
+package: wasmer/wasix-reqwest-proxy-example@0.1.1

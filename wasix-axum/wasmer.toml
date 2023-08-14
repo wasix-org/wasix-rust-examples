@@ -1,16 +1,16 @@
 [package]
-name = "wasix-org/wasix-axum"
-version = "0.1.0"
-description = "Sample Axum server for Wasmer Edge"
-license = "MIT"
+name = "wasmer/wasix-axum-example"
+version = "0.1.3"
+description = "Package to showcase a news scraper on wasmer edge"
 wasmer-extra-flags = "--net --enable-threads --enable-bulk-memory"
 
+[dependencies]
+
 [[module]]
-name = "axum-wasix-starter"
-source = "./target/wasm32-wasmer-wasi/release/wasix-axum.wasm"
-abi = "wasi"
+name = "wasix-axum"
+source = "target/wasm32-wasmer-wasi/release/wasix-axum.wasm"
 
 [[command]]
-name = "proxy"
+name = "wasix-axum"
 module = "wasix-axum"
-runner = "https://webc.org/runner/wasi"
+runner = "wasi@unstable_"
