@@ -1,23 +1,47 @@
-use std::vec;
+use std::fmt;
 
 use colored::*;
 use scraper::{ElementRef, Html};
 
+// Scraper for Hacker News
 #[derive(Debug)]
 struct NewsHeadline {
-    label: Option<String>,
-    sublabel: Option<String>,
     headline: String,
+    link: String,
+    time: String,
+    num_points: Option<u32>,
+    num_comments: Option<String>,
+    author: Option<String>,
 }
 
-#[derive(Debug)]
-struct NewsSection {
-    section_title: Option<String>,
-    headlines: Vec<NewsHeadline>,
+impl fmt::Display for NewsHeadline {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_str(&format!("{}", self.headline.bold(),))?;
+        f.write_str(&format!(
+            "\n\t{} {} {} | {}",
+            self.num_points
+                .map(|num_points| format!("{} points", num_points))
+                .map(|num_points| num_points.magenta())
+                .unwrap_or_default(),
+            self.author
+                .clone()
+                .map(|author| format!("by {}", author))
+                .map(|author| author.bright_black())
+                .unwrap_or_default(),
+            self.time.dimmed(),
+            self.num_comments
+                .clone()
+                .map(|num_comments| num_comments.to_string())
+                .map(|num_comments| num_comments.green())
+                .unwrap_or_default()
+        ))?;
+        f.write_str(&format!("\n\t{}", self.link.underline().blue()))?;
+        Ok(())
+    }
 }
 
 pub struct NewsScraper {
-    news: Vec<NewsSection>,
+    news: Vec<NewsHeadline>,
 }
 
 impl NewsScraper {
@@ -30,151 +54,93 @@ impl NewsScraper {
         response.text().map_err(Into::into)
     }
 
-    fn scrape_headline(element: ElementRef) -> NewsHeadline {
-        let label_selector = &scraper::Selector::parse(r#"span[data-testid='label']"#).unwrap();
-        let labels = element.select(label_selector);
-        let labels = labels.fold(Vec::<&str>::new(), |mut acc, label| {
-            let label_text = label.text().collect::<Vec<&str>>();
-            // add label_text to acc
-            acc.extend(label_text);
-            acc
-        });
-
-        let label = labels.first().map(|&label| label.into());
-
-        let title_selector = &scraper::Selector::parse(r#"[data-testid='title']"#).unwrap();
-        let titles = element.select(title_selector);
-        let titles = titles.fold(Vec::<&str>::new(), |mut acc, title| {
-            let title_text = title.text().collect::<Vec<&str>>();
-            // add title_text to acc
-            acc.extend(title_text);
-            acc
-        });
-        let (sublabel, headline): (Option<String>, String) = if titles.len() > 1 {
-            let (first, rest) = titles.split_first().unwrap();
-            let sublabel = first.to_string();
-            (Some(sublabel), rest.join(""))
-        } else {
-            (None, titles.join(""))
-        };
-        NewsHeadline {
-            label,
-            sublabel,
-            headline,
-        }
-    }
-
     pub fn scrape(&mut self) -> Result<(), reqwest::Error> {
-        let url = "https://www.independent.ie/";
+        let url = "https://news.ycombinator.com/";
         let page = Self::fetch_news_page(url)?;
 
         // Parse the page into a DOM tree
         let document = Html::parse_document(&page);
 
-        // Get the main element
-        let main_selector = scraper::Selector::parse("main").unwrap();
-        let main_element = document.select(&main_selector).next().unwrap();
+        // Get all the elements with class "athing"
+        let athing_selector = scraper::Selector::parse(".athing").unwrap();
+        let athing_elements = document.select(&athing_selector);
 
-        // From the main element get the section elements which contain the attribute data-vr-zone *= "section"
-        let section_selector =
-            scraper::Selector::parse(r#"section[data-vr-zone*='section']"#).unwrap();
-        let section_elements = main_element.select(&section_selector);
+        // traverse the elements
+        for athing_element in athing_elements {
+            // on the athing element get the span with `titleline`
+            let titleline_selector = scraper::Selector::parse(".titleline").unwrap();
+            let titleline_element = athing_element.select(&titleline_selector).next().unwrap();
+            // get the first anchor element
+            let anchor_selector = scraper::Selector::parse("a").unwrap();
+            let anchor_element = titleline_element.select(&anchor_selector).next().unwrap();
 
-        let mut news_sections: Vec<NewsSection> = vec![];
-        for section_element in section_elements {
-            // Get the direct child nodes of this section_element
-            let child_nodes = section_element.children();
-            // for all the child nodes print the outer tag
+            // get the text of the anchor element
+            let headline = anchor_element.text().collect::<Vec<_>>().join("");
+            // get the href attribute of the anchor element
+            let link = anchor_element.value().attr("href").unwrap().to_string();
 
-            for child_node in child_nodes {
-                // match if the child_node is a div
-                if child_node.value().is_text() {
-                    continue;
-                }
-                // assuming each child_node only has one label
-                let mut news_section: Option<NewsSection> = None;
-                let mut news_div_label: Option<String> = None;
-                // the child_node is a div
-                if let Some(div) = ElementRef::wrap(child_node) {
-                    // From this div get the elements with attribute data-testid = "list-header"
-                    let list_header_selector =
-                        scraper::Selector::parse(r#"[data-testid='list-header']"#).unwrap();
-                    let list_header_elements = div.select(&list_header_selector);
-                    list_header_elements.for_each(|list_header_element| {
-                        let headers = list_header_element.text().collect::<Vec<&str>>();
-                        news_div_label = headers.first().map(|&list_header| list_header.into());
-                    });
+            // get the next sibling of the athing element
+            let athing_next_sibling = athing_element.next_sibling().unwrap();
+            // convert the node to an element
+            let athing_next_sibling_element = ElementRef::wrap(athing_next_sibling).unwrap();
+            // get the span with class "age"
+            let age_selector = scraper::Selector::parse(".age").unwrap();
+            let time = athing_next_sibling_element
+                .select(&age_selector)
+                .next()
+                .map(|elem| elem.text().collect::<String>());
+            // get the text of the age element
 
-                    // From this div get the elements with attribute class = "eyebrow"
-                    let eyebrow_selector = scraper::Selector::parse(r#".eyebrow"#).unwrap();
-                    let eyebrow_elements = div.select(&eyebrow_selector);
+            // get the score element
+            let score_selector = scraper::Selector::parse(".score").unwrap();
+            let num_points = athing_next_sibling_element
+                .select(&score_selector)
+                .next()
+                .map(|elem| elem.text().collect::<String>());
+            // get the text of the score element
 
-                    eyebrow_elements.for_each(|eyebrow_element| {
-                        let eyebrow = eyebrow_element.text().collect::<Vec<&str>>();
-                        news_div_label = eyebrow.first().map(|&eyebrow| eyebrow.into());
-                    });
+            // get the anchor element with class "hnuser"
+            let hnuser_selector = scraper::Selector::parse(".hnuser").unwrap();
+            let author = athing_next_sibling_element
+                .select(&hnuser_selector)
+                .next()
+                .map(|elem| elem.text().collect::<String>());
 
-                    let mut news_headlines: Vec<NewsHeadline> = vec![];
+            // get the last child of subline element to get the number of comments
+            let subline_selector = scraper::Selector::parse(".subline > a:last-child").unwrap();
+            let num_comments = athing_next_sibling_element
+                .select(&subline_selector)
+                .next()
+                .map(|elem| elem.text().collect::<String>());
 
-                    // From this div get the element ul with attribute data-testid = "article-teaser-list"
-                    let article_teaser_list_selector =
-                        scraper::Selector::parse(r#"ul[data-testid='article-teaser-list']"#)
-                            .unwrap();
-                    let article_teaser_list_elements = div.select(&article_teaser_list_selector);
-                    article_teaser_list_elements.for_each(|article_teaser_list_element| {
-                        let article_teaser_list_elements_selector = &scraper::Selector::parse(
-                            r#"li[data-testid='article-teaser-list-item']"#,
-                        )
-                        .unwrap();
-                        let article_teaser_list_item_elements = article_teaser_list_element
-                            .select(article_teaser_list_elements_selector);
-                        for li_item in article_teaser_list_item_elements {
-                            news_headlines.push(Self::scrape_headline(li_item));
-                        }
-                    });
-
-                    // From this div get the element div with attribute data-testid = "grid-teaser"
-                    let grid_teaser_selector =
-                        scraper::Selector::parse(r#"[data-testid='grid-teaser']"#).unwrap();
-                    let grid_teaser_elements = div.select(&grid_teaser_selector);
-                    grid_teaser_elements.for_each(|grid_teaser_element| {
-                        news_headlines.push(Self::scrape_headline(grid_teaser_element));
-                    });
-
-                    if !news_headlines.is_empty() {
-                        news_section = Some(NewsSection {
-                            section_title: news_div_label,
-                            headlines: news_headlines,
-                        });
-                    }
-                }
-
-                if let Some(news_section) = news_section {
-                    news_sections.push(news_section);
-                }
-            }
+            self.news.push(NewsHeadline {
+                headline,
+                link,
+                time: time.unwrap(),
+                num_points: num_points.map(|num_points| {
+                    num_points
+                        .split_whitespace()
+                        .next()
+                        .unwrap()
+                        .parse()
+                        .unwrap()
+                }),
+                num_comments,
+                author,
+            });
         }
-        if !news_sections.is_empty() {
-            self.news = news_sections;
-        };
+
         Ok(())
     }
 
     pub fn get_news(&self) -> String {
         let mut news = String::new();
-        for news_section in &self.news {
-            if let Some(section_title) = &news_section.section_title {
-                news.push_str(&format!("{}\n", section_title.black().on_white().bold()));
-            }
-            for headline in &news_section.headlines {
-                if let Some(label) = &headline.label {
-                    news.push_str(&format!(" {} ", label.blue().bold()));
-                }
-                if let Some(sublabel) = &headline.sublabel {
-                    news.push_str(&format!(" {} ", sublabel.white().on_red().bold()));
-                }
-                news.push_str(&format!("{}\n", headline.headline.cyan()));
-            }
+        news.push_str(&format!(
+            "\n{}\n",
+            " Hacker News ".bold().on_bright_green().black()
+        ));
+        for (i, news_headline) in self.news.iter().enumerate() {
+            news.push_str(&format!("\n{}. {}", i + 1, news_headline));
         }
         news
     }

@@ -7,7 +7,9 @@ mod news_scraper;
 
 async fn handle(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
     let mut news = news_scraper::NewsScraper::new();
+
     let mut status = StatusCode::OK;
+
     let body = match news.scrape() {
         Ok(_) => news.get_news(),
         Err(err) => {
