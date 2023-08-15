@@ -49,15 +49,7 @@ impl NewsScraper {
         NewsScraper { news: Vec::new() }
     }
 
-    fn fetch_news_page(url: &str) -> Result<String, reqwest::Error> {
-        let response = reqwest::blocking::get(url)?;
-        response.text().map_err(Into::into)
-    }
-
-    pub fn scrape(&mut self) -> Result<(), reqwest::Error> {
-        let url = "https://news.ycombinator.com/";
-        let page = Self::fetch_news_page(url)?;
-
+    pub fn scrape(&mut self, page: String) {
         // Parse the page into a DOM tree
         let document = Html::parse_document(&page);
 
@@ -129,8 +121,6 @@ impl NewsScraper {
                 author,
             });
         }
-
-        Ok(())
     }
 
     pub fn get_news(&self) -> String {

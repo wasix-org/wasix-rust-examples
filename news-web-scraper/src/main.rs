@@ -6,19 +6,21 @@ use std::net::SocketAddr;
 mod news_scraper;
 
 async fn handle(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
-    let mut news = news_scraper::NewsScraper::new();
-
+    let url = "https://news.ycombinator.com/";
     let mut status = StatusCode::OK;
 
-    let body = match news.scrape() {
-        Ok(_) => news.get_news(),
+    let page = match async { reqwest::get(url).await?.text().await }.await {
+        Ok(b) => b,
         Err(err) => {
             status = err.status().unwrap_or(StatusCode::BAD_REQUEST);
             format!("{err}")
         }
     };
 
-    let body = String::from_utf8_lossy(body.as_bytes()).to_string();
+    let mut news = news_scraper::NewsScraper::new();
+    news.scrape(page);
+    let response = news.get_news();
+    let body = String::from_utf8_lossy(response.as_bytes()).to_string();
 
     let mut res = Response::new(Body::from(body));
     *res.status_mut() = status;
