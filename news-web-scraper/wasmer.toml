@@ -3,6 +3,7 @@ name = "wasmer/news-scraper"
 version = "0.1.4"
 description = "Package to showcase a news scraper on wasmer edge"
 wasmer-extra-flags = "--net --enable-threads --enable-bulk-memory"
+readme = "README.md"
 
 [dependencies]
 
