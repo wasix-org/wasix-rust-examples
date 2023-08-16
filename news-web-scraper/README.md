@@ -6,7 +6,25 @@ The objective of this project is to learn compilation and deployment of Rust pro
 
 ## Usage
 
-To run the project, you must have Rust installed. You can install Rust using [rustup](https://rustup.rs/).
+### Pre-requisites
+
+You must have the following installed on your machine:
+
+- [Rust](https://rustup.rs/)
+- [Wasmer](https://docs.wasmer.io/install)
+- [cargo-wasix](https://crates.io/crates/cargo-wasix)
+
+### Running the project
+
+#### Running using Wasmer Registry
+
+To run the project from the `wasmer/news-scraper` package you can simply do:
+
+```shell
+$ wasmer run wasmer/news-scraper --net --env PORT=3000
+```
+
+#### Running locally
 
 To run the project, clone the repository and run the following command:
 
