@@ -1,0 +1,44 @@
+[package]
+name = "wasix-grpc"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[bin]] # Bin to run the HelloWorld gRPC server
+name = "helloworld-server"
+path = "src/server.rs"
+
+[[bin]] # Bin to run the HelloWorld gRPC client
+name = "helloworld-client"
+path = "src/client.rs"
+
+[dependencies]
+tonic = { version = "0.9", features = ["tls"] }
+prost = "0.11"
+tokio = { version = "=1.24.2", git = "https://github.com/wasix-org/tokio.git", branch = "epoll", default-features = false, features = [
+    "full",
+] }
+libc = { version = "0.2.139", git = "https://github.com/wasix-org/libc.git", branch = "master" }
+tokio-stream = "0.1.14"
+hyper-rustls = { git = "https://github.com/wasix-org/hyper-rustls.git", branch = "main", features = [
+    "http2",
+] }
+tokio-rustls = { version = "0.24.1", git = "https://github.com/wasix-org/tokio-rustls.git", branch = "main" }
+hyper = { git = "https://github.com/wasix-org/hyper.git", branch = "v0.14.27" }
+tower = "0.4.13"
+http-body = "0.4.5"
+tower-http = { version = "0.4.3", features = ["util", "add-extension"] }
+rustls-pemfile = "1.0.3"
+rustls-native-certs = { path = "/Volumes/Work/Projects/Rust/rustls-native-certs" }
+
+[build-dependencies]
+tonic-build = "0.9"
+
+[patch.crates-io]
+rustls-native-certs = { path = "/Volumes/Work/Projects/Rust/rustls-native-certs" }
+socket2 = { git = "https://github.com/wasix-org/socket2.git", branch = "v0.4.9" }
+tokio = { git = "https://github.com/wasix-org/tokio.git", branch = "epoll" }
+hyper = { git = "https://github.com/wasix-org/hyper.git", branch = "v0.14.27" }
+ring = { git = "https://github.com/wasix-org/ring.git", branch = "wasix" }
+rustls = { git = "https://github.com/wasix-org/rustls.git", branch = "v0.21.5" }
