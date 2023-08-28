@@ -159,9 +159,12 @@ impl Greeter for MyGreeter {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // let data_dir = std::path::PathBuf::from_iter([std::env!("CARGO_MANIFEST_DIR")]);
-    // get the current directory
-    let data_dir = std::env::current_dir()?;
+    let data_dir=if cfg!(target_os = "wasi") {
+        std::env::current_dir()?;
+    } else {
+        std::path::PathBuf::from(std::env!("CARGO_MANIFEST_DIR"));
+    };
+    
     let certs = {
         let fd = std::fs::File::open(data_dir.join("tls/server.pem"))?;
         let mut buf = std::io::BufReader::new(&fd);

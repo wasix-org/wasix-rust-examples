@@ -113,8 +113,11 @@ where
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // let data_dir = std::path::PathBuf::from(std::env!("CARGO_MANIFEST_DIR"));
-    let data_dir = std::env::current_dir()?;
+    let data_dir=if cfg!(target_os = "wasi") {
+        std::env::current_dir()?;
+    } else {
+        std::path::PathBuf::from(std::env!("CARGO_MANIFEST_DIR"));
+    };
     let fd = std::fs::File::open(data_dir.join("tls/ca.pem"))?;
 
     let mut roots = RootCertStore::empty();
