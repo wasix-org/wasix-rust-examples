@@ -1,19 +1,13 @@
-use std::{sync::Arc, time::Duration};
+use std::time::Duration;
 
 use hello_world::greeter_client::GreeterClient;
 use hello_world::HelloRequest;
 
-use http_body::{combinators::UnsyncBoxBody, Body};
+use http_body::Body;
 use hyper::{body::Bytes, client::HttpConnector, Client, Request, Uri};
 use hyper_rustls::HttpsConnector;
-use tokio_rustls::rustls::{ClientConfig, ConfigBuilder, OwnedTrustAnchor, RootCertStore};
+use tokio_rustls::rustls::{ClientConfig, RootCertStore};
 use tokio_stream::{Stream, StreamExt};
-use tonic::{
-    body::BoxBody,
-    client::GrpcService,
-    transport::{Channel, ClientTlsConfig},
-    Status,
-};
 use tower::{util::MapRequest, ServiceExt};
 
 pub mod hello_world {
@@ -113,11 +107,12 @@ where
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let data_dir=if cfg!(target_os = "wasi") {
-        std::env::current_dir()?;
+    let data_dir = if cfg!(target_os = "wasi") {
+        std::env::current_dir()?
     } else {
-        std::path::PathBuf::from(std::env!("CARGO_MANIFEST_DIR"));
+        std::path::PathBuf::from(std::env!("CARGO_MANIFEST_DIR"))
     };
+
     let fd = std::fs::File::open(data_dir.join("tls/ca.pem"))?;
 
     let mut roots = RootCertStore::empty();
@@ -146,7 +141,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         })
         .map_request(|_: Uri| Uri::from_static("https://127.0.0.1:50051"))
         .service(http);
-    // .boxed_clone();
 
     let client = hyper::Client::builder().build(connector);
 

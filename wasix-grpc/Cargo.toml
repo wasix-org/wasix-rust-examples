@@ -36,7 +36,7 @@ rustls-native-certs = { path = "/Volumes/Work/Projects/Rust/rustls-native-certs"
 tonic-build = "0.9"
 
 [patch.crates-io]
-rustls-native-certs = { path = "/Volumes/Work/Projects/Rust/rustls-native-certs" }
+rustls-native-certs = { git = "https://github.com/wasix-org/rustls-native-certs.git" }
 socket2 = { git = "https://github.com/wasix-org/socket2.git", branch = "v0.4.9" }
 tokio = { git = "https://github.com/wasix-org/tokio.git", branch = "epoll" }
 hyper = { git = "https://github.com/wasix-org/hyper.git", branch = "v0.14.27" }

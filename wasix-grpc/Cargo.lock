@@ -404,7 +404,7 @@ dependencies = [
  "hyper",
  "log",
  "rustls",
- "rustls-native-certs",
+ "rustls-native-certs 0.6.3 (git+https://github.com/wasix-org/rustls-native-certs.git)",
  "tokio",
  "tokio-rustls 0.24.1 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -824,6 +824,18 @@ dependencies = [
 [[package]]
 name = "rustls-native-certs"
 version = "0.6.3"
+dependencies = [
+ "libc 0.2.139 (git+https://github.com/wasix-org/libc.git)",
+ "openssl-probe",
+ "rustls-pemfile",
+ "schannel",
+ "security-framework",
+]
+
+[[package]]
+name = "rustls-native-certs"
+version = "0.6.3"
+source = "git+https://github.com/wasix-org/rustls-native-certs.git#59091f9bd1f0e4b116e93dfaf63669b09380dd7e"
 dependencies = [
  "libc 0.2.139 (git+https://github.com/wasix-org/libc.git)",
  "openssl-probe",
@@ -1279,7 +1291,7 @@ dependencies = [
  "hyper-rustls",
  "libc 0.2.139 (git+https://github.com/wasix-org/libc.git?branch=master)",
  "prost",
- "rustls-native-certs",
+ "rustls-native-certs 0.6.3",
  "rustls-pemfile",
  "tokio",
  "tokio-rustls 0.24.1 (git+https://github.com/wasix-org/tokio-rustls.git?branch=main)",

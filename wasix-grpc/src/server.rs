@@ -159,12 +159,12 @@ impl Greeter for MyGreeter {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let data_dir=if cfg!(target_os = "wasi") {
-        std::env::current_dir()?;
+    let data_dir = if cfg!(target_os = "wasi") {
+        std::env::current_dir()?
     } else {
-        std::path::PathBuf::from(std::env!("CARGO_MANIFEST_DIR"));
+        std::path::PathBuf::from(std::env!("CARGO_MANIFEST_DIR"))
     };
-    
+
     let certs = {
         let fd = std::fs::File::open(data_dir.join("tls/server.pem"))?;
         let mut buf = std::io::BufReader::new(&fd);
@@ -203,6 +203,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let listener = TcpListener::bind("127.0.0.1:50051").await?;
     let tls_acceptor = TlsAcceptor::from(Arc::new(tls));
+
+    eprintln!("Server listening on {}", listener.local_addr()?);
 
     loop {
         let (conn, addr) = match listener.accept().await {
