@@ -1,0 +1,19 @@
+[package]
+name = "wasmer/wasix-htmx"
+version = "0.1.2"
+description = "Package to showcase how to use wasmer edge with htmx"
+wasmer-extra-flags = "--net --enable-threads --enable-bulk-memory"
+
+[dependencies]
+
+[fs]
+assets = "assets"
+
+[[module]]
+name = "wasix-htmx"
+source = "target/wasm32-wasmer-wasi/release/wasix-htmx.wasm"
+
+[[command]]
+name = "run"
+module = "wasix-htmx"
+runner = "wasi@unstable_"

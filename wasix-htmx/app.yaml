@@ -1,0 +1,4 @@
+---
+kind: wasmer.io/App.v0
+name: wasix-htmx
+package: wasmer/wasix-htmx

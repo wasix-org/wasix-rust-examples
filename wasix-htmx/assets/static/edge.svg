@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 26 26">
+  <g clip-path="url(#a)">
+    <g filter="url(#b)">
+      <path stroke="#AC5CE0" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.174" d="m10.766 8.125 1.117-2.031L13 4.062l1.117 2.032 1.117 2.031 1.118 2.031"/>
+    </g>
+    <g filter="url(#c)">
+      <path stroke="#AC5CE0" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.174" d="m19.703 16.25 1.117 2.031 1.117 2.032h-6.702"/>
+    </g>
+    <g filter="url(#d)">
+      <path stroke="#AC5CE0" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.174" d="M8.531 20.313H4.063L5.18 18.28l1.117-2.031 1.117-2.031"/>
+    </g>
+  </g>
+  <defs>
+    <filter id="b" width="16.761" height="17.268" x="5.178" y="-1.525" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" result="hardAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+      <feOffset/>
+      <feGaussianBlur stdDeviation="2"/>
+      <feComposite in2="hardAlpha" operator="out"/>
+      <feColorMatrix values="0 0 0 0 0.67451 0 0 0 0 0.360784 0 0 0 0 0.878431 0 0 0 0.5 0"/>
+      <feBlend in2="BackgroundImageFix" result="effect1_dropShadow_6_557"/>
+      <feBlend in="SourceGraphic" in2="effect1_dropShadow_6_557" result="shape"/>
+      <feColorMatrix in="SourceAlpha" result="hardAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+      <feOffset dy="1.058"/>
+      <feGaussianBlur stdDeviation=".529"/>
+      <feComposite in2="hardAlpha" k2="-1" k3="1" operator="arithmetic"/>
+      <feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0"/>
+      <feBlend in2="shape" mode="soft-light" result="effect2_innerShadow_6_557"/>
+    </filter>
+    <filter id="c" width="17.877" height="15.237" x="9.647" y="10.663" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" result="hardAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+      <feOffset/>
+      <feGaussianBlur stdDeviation="2"/>
+      <feComposite in2="hardAlpha" operator="out"/>
+      <feColorMatrix values="0 0 0 0 0.67451 0 0 0 0 0.360784 0 0 0 0 0.878431 0 0 0 0.5 0"/>
+      <feBlend in2="BackgroundImageFix" result="effect1_dropShadow_6_557"/>
+      <feBlend in="SourceGraphic" in2="effect1_dropShadow_6_557" result="shape"/>
+      <feColorMatrix in="SourceAlpha" result="hardAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+      <feOffset dy="1.058"/>
+      <feGaussianBlur stdDeviation=".529"/>
+      <feComposite in2="hardAlpha" k2="-1" k3="1" operator="arithmetic"/>
+      <feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0"/>
+      <feBlend in2="shape" mode="soft-light" result="effect2_innerShadow_6_557"/>
+    </filter>
+    <filter id="d" width="15.643" height="17.268" x="-1.525" y="8.631" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" result="hardAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+      <feOffset/>
+      <feGaussianBlur stdDeviation="2"/>
+      <feComposite in2="hardAlpha" operator="out"/>
+      <feColorMatrix values="0 0 0 0 0.67451 0 0 0 0 0.360784 0 0 0 0 0.878431 0 0 0 0.5 0"/>
+      <feBlend in2="BackgroundImageFix" result="effect1_dropShadow_6_557"/>
+      <feBlend in="SourceGraphic" in2="effect1_dropShadow_6_557" result="shape"/>
+      <feColorMatrix in="SourceAlpha" result="hardAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+      <feOffset dy="1.058"/>
+      <feGaussianBlur stdDeviation=".529"/>
+      <feComposite in2="hardAlpha" k2="-1" k3="1" operator="arithmetic"/>
+      <feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0"/>
+      <feBlend in2="shape" mode="soft-light" result="effect2_innerShadow_6_557"/>
+    </filter>
+    <clipPath id="a">
+      <path fill="#fff" d="M0 0h26v26H0z"/>
+    </clipPath>
+  </defs>
+</svg>

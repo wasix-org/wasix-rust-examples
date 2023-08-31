@@ -1,0 +1,59 @@
+<div class="bg-white">
+  <div class="px-6 py-24 sm:px-6 sm:py-32 lg:px-8">
+    <div class="mx-auto max-w-2xl text-center">
+      <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        Wasmer Edge ❤️ &lt;htmx /&gt;
+      </h1>
+      <p class="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-600">
+        A simple example of using htmx based app in axum running on Wasmer Edge.
+      </p>
+      <div class="mt-10 flex-col space-y-12">
+        <button
+          hx-post="/api/next-prime"
+          hx-trigger="click"
+          hx-target="#next-prime-number"
+          class="rounded-md bg-black px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-white hover:text-black hover:ring-2 hover:ring-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+        >
+          Get Next Prime
+        </button>
+
+        <div id="next-prime-number">{{ next_prime_number }}</div>
+
+        <button
+          hx-get="/api/fortune"
+          hx-trigger="click"
+          hx-target="#fortune"
+          hx-indicator="#fortune-spinner"
+          class="rounded-md bg-black px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-white hover:text-black hover:ring-2 hover:ring-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+        >
+          Have some Wisdom 🧙
+        </button>
+
+        <div id="fortune" class="font-sans italic"></div>
+
+        <div id="fortune-spinner" class="htmx-indicator mx-auto h-12 w-12">
+          <svg
+            class="animate-spin"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

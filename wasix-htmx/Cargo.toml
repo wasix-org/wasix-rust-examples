@@ -1,0 +1,26 @@
+[package]
+name = "wasix-htmx"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1"
+askama = "0.12"
+axum = { version = "=0.6.9", features = ["tokio", "json"] }
+tokio = { version = "1", features = ["full"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+tower = { version = "0.4", features = ["util"] }
+tower-http = { version = "0.4.0", features = ["fs", "trace"] }
+serde = { version = "1.0.188", features = ["derive"] }
+serde_json = "1.0.105"
+
+reqwest = { git = "https://github.com/wasix-org/reqwest.git", default-features = false, features = [
+    "json",
+] }
+
+[patch.crates-io]
+tokio = { git = "https://github.com/wasix-org/tokio.git", branch = "epoll" }
+hyper = { git = "https://github.com/wasix-org/hyper.git", branch = "v0.14.27" }
