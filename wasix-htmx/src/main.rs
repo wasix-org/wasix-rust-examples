@@ -59,6 +59,7 @@ async fn main() -> anyhow::Result<()> {
 
     let addr = std::net::SocketAddr::from(([127, 0, 0, 1], port));
 
+    eprintln!("Listening on http://{}", addr);
     info!("router initialized, now listening on port {}", port);
 
     let state = AppState {
