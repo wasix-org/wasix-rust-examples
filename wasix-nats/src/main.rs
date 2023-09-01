@@ -14,9 +14,11 @@ async fn main() -> Result<(), async_nats::Error> {
 
     // Publish messages to the "messages" subject
     for i in 0..10 {
+        println!("Published message - before: {}", i);
         client
             .publish(PUBLISH_SUBJECT.into(), format!("Hello - {}", i).into())
             .await?;
+        println!("Published message - after: {}", i);
     }
 
     // Receive and process messages

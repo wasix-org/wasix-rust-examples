@@ -26,7 +26,7 @@ $ nats-server -c nats-server.conf
 ## Running the WASM module
 
 ```shell
-$ wasix run target/wasm32-wasi/release/wasix-nats.wasm --net
+$ wasmer run target/wasm32-wasmer-wasi/release/wasix-nats.wasm --net
 ```
 
 ### Output
