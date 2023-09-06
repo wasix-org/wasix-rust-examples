@@ -1,0 +1,23 @@
+[package]
+name = "wasix-postgres"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+tokio = { git = "https://github.com/wasix-org/tokio.git", branch = "epoll", features = [
+    "macros",
+    "net",
+    "rt",
+    "rt-multi-thread",
+    "time",
+    "fs",
+], version = "=1.24.2" }
+parking_lot = { git = "https://github.com/wasix-org/parking_lot.git", version = "0.12.1" }
+tokio-postgres = { git = "https://github.com/wasix-org/rust-postgres.git", branch = "wasix" }
+
+[patch.crates-io]
+tokio = { git = "https://github.com/wasix-org/tokio.git", branch = "epoll" }
+parking_lot = { git = "https://github.com/wasix-org/parking_lot.git" }
+tokio-postgres = { git = "https://github.com/wasix-org/rust-postgres.git", branch = "wasix" }
