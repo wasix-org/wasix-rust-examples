@@ -1,6 +1,6 @@
 [package]
 name = "wasmer/wasix-htmx"
-version = "0.1.3"
+version = "0.1.5"
 description = "Package to showcase how to use wasmer edge with htmx"
 wasmer-extra-flags = "--net --enable-threads --enable-bulk-memory"
 
