@@ -5,7 +5,7 @@ This repo contains a starter project for building a **Wasix** based axum web ser
 ## Compiling the project
 
 ```bash
-$ cargo wasix build
+$ cargo wasix build --release
 ```
 
 ## Running the project
