@@ -1,0 +1,20 @@
+[package]
+name = 'wasmer/wasix-subprocess-example'
+version = '0.1.0'
+description = 'An example of using subprocesses in Wasmer'
+readme = 'README.md'
+
+# See more keys and definitions at https://docs.wasmer.io/registry/manifest
+
+[[module]]
+name = 'wasix-subprocess'
+source = 'target/wasm32-wasmer-wasi/release/wasix-subprocess.wasm'
+abi = 'wasi'
+
+[dependencies]
+"sharrattj/coreutils" = "1"
+
+
+[[command]]
+name = 'wasix-subprocess'
+module = 'wasix-subprocess'
