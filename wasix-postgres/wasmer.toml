@@ -1,0 +1,16 @@
+[package]
+name = "wasmer/wasix-postgres"
+version = "0.1.0"
+description = "Package to showcase wasix-postgres connection"
+wasmer-extra-flags = "--net --enable-threads --enable-bulk-memory"
+
+[dependencies]
+
+[[module]]
+name = "wasix-postgres"
+source = "target/wasm32-wasmer-wasi/release/wasix-postgres.wasm"
+
+[[command]]
+name = "wasix-postgres"
+module = "wasix-postgres"
+runner = "wasi@unstable_"

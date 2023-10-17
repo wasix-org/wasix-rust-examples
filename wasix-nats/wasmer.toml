@@ -1,0 +1,16 @@
+[package]
+name = "wasmer/wasix-nats"
+version = "0.1.0"
+description = "Package to showcase wasix-nats connection"
+wasmer-extra-flags = "--net --enable-threads --enable-bulk-memory"
+
+[dependencies]
+
+[[module]]
+name = "wasix-nats"
+source = "target/wasm32-wasmer-wasi/release/wasix-nats.wasm"
+
+[[command]]
+name = "wasix-nats"
+module = "wasix-nats"
+runner = "wasi@unstable_"
