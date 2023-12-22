@@ -1,0 +1,20 @@
+[package]
+name = 'wasmer/wasix-spawn-example'
+version = '0.1.0'
+description = 'An example of using spawn in wasix'
+readme = 'README.md'
+
+# See more keys and definitions at https://docs.wasmer.io/registry/manifest
+
+[[module]]
+name = 'wasix-spawn'
+source = 'target/wasm32-wasmer-wasi/release/wasix-spawn.wasm'
+abi = 'wasi'
+
+[dependencies]
+"sharrattj/coreutils" = "1"
+
+
+[[command]]
+name = 'wasix-spawn'
+module = 'wasix-spawn'
