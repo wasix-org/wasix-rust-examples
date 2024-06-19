@@ -31,3 +31,6 @@ libc = { git = "https://github.com/wasix-org/libc.git" }
 tokio = { git = "https://github.com/wasix-org/tokio.git", branch = "epoll" }
 rustls = { git = "https://github.com/wasix-org/rustls.git", branch = "v0.21.5" }
 hyper = { git = "https://github.com/wasix-org/hyper.git", branch = "v0.14.27" }
+
+[patch."https://github.com/wasix-org/tokio-rustls"]
+tokio-rustls = "0.24.1"
