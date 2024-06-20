@@ -6,7 +6,7 @@ async fn main() {
     // Building our application with a single Route
     let app = Router::new().route("/", get(handler));
 
-    let port = std::env::var("PORT").unwrap_or("80".to_string());
+    let port = std::env::var("PORT").unwrap_or("8080".to_string());
     let port = port.parse::<u16>().unwrap_or_else(|_| {
         eprintln!("Invalid port number: {}", port);
         std::process::exit(1);

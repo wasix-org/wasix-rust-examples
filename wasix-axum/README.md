@@ -11,7 +11,7 @@ $ cargo wasix build --release
 ## Running the project
 
 ```bash
-$ wasmer run target/wasm32-wasmer-wasi/release/wasix-axum.wasm --net --env PORT=8080
+$ wasmer run target/wasm32-wasmer-wasi/release/wasix-axum.wasm --net
 Listening on http://127.0.0.1:8080
 ```
 
