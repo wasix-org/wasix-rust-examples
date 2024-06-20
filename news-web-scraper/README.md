@@ -21,7 +21,7 @@ You must have the following installed on your machine:
 To run the project from the `wasmer/news-scraper` package you can simply do:
 
 ```shell
-$ wasmer run wasmer/news-scraper --net --env PORT=3000
+$ wasmer run wasmer/news-scraper --net
 ```
 
 #### Running locally
@@ -37,10 +37,10 @@ This will compile the project to WASIX and output the compiled binary to `target
 To run the compiled binary, run the following command:
 
 ```bash
-wasmer run target/wasm32-wasmer-wasi/release/news-scraper.wasm --net --env PORT=3000
+wasmer run target/wasm32-wasmer-wasi/release/news-scraper.wasm --net
 ```
 
-This will run the compiled binary on port 3000. You can then access the web scraper at `http://localhost:3000` using curl or a web browser.
+This will run the compiled binary on port 8080. You can then access the web scraper at `http://localhost:8080` using curl or a web browser.
 
 ## Deployment
 

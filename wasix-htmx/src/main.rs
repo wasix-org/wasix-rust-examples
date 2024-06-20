@@ -52,7 +52,7 @@ async fn main() -> anyhow::Result<()> {
     info!("initializing router and assets");
 
     // run it, make sure you handle parsing your environment variables properly!
-    let port = std::env::var("PORT").unwrap_or_else(|_| "80".to_string());
+    let port = std::env::var("PORT").unwrap_or_else(|_| "8080".to_string());
     let port = port
         .parse()
         .context("PORT environment variable is not a valid u16")?;

@@ -43,13 +43,13 @@ $ cargo wasix build --release
 ### Using source code
 
 ```shell
-$ wasmer run target/wasm32-wasmer-wasi/release/wasix-htmx.wasm --net --env PORT=8080 --mapdir /assets:./assets
+$ wasmer run target/wasm32-wasmer-wasi/release/wasix-htmx.wasm --net --mapdir /assets:./assets
 ```
 
 ### Using Published Package
 
 ```shell
-$ wasmer run wasmer/wasix-htmx --net --env PORT=8080
+$ wasmer run wasmer/wasix-htmx --net
 ```
 
 Now you can open your browser and go to http://127.0.0.1:8080 to access the website.

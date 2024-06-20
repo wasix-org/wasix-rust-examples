@@ -30,7 +30,7 @@ async fn handle(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     // check if there's an environment variable for the port
-    let port = std::env::var("PORT").unwrap_or_else(|_| "80".to_string());
+    let port = std::env::var("PORT").unwrap_or_else(|_| "8080".to_string());
     // parse the port into a u16
     let port = port.parse::<u16>()?;
 

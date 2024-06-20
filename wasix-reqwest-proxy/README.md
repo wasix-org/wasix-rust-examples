@@ -11,7 +11,7 @@ cargo wasix build
 ## Run
 
 ```bash
-wasmer run target/wasm32-wasmer-wasi/debug/wasix-reqwest-proxy.wasm
+wasmer run . --net
 ```
 
 ## Deploy to wasmer edge
