@@ -17,3 +17,5 @@ parking_lot = { version = "=0.12.1", features = ["nightly"] }
 tokio = { git = "https://github.com/wasix-org/tokio.git", branch = "wasix-1.24.2" }
 socket2 = { git = "https://github.com/wasix-org/socket2.git", branch = "v0.4.9" }
 libc = { git = "https://github.com/wasix-org/libc.git", branch = "master" }
+hyper = { git = "https://github.com/wasix-org/hyper", branch = "v0.14.18" }
+parking_lot = {git = "https://github.com/wasix-org/parking_lot.git", branch = "v0.12.1" }
