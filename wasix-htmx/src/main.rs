@@ -66,8 +66,10 @@ async fn main() -> anyhow::Result<()> {
         counter: Arc::new(PrimeState::new()),
     };
 
-    axum::Server::bind(&addr)
-        .serve(router(state)?.into_make_service())
+    let listener = tokio::net::TcpListener::bind(addr)
+        .await
+        .context("failed to bind server address")?;
+    axum::serve(listener, router(state)?)
         .await
         .context("error while starting API server")?;
 

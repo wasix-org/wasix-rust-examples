@@ -9,6 +9,4 @@ edition = "2021"
 log = "0.4.17"
 tracing = { version = "0.1" }
 tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
-tokio = { version = "=1.24.2", git = "https://github.com/wasix-org/tokio.git", branch = "wasix-1.24.2-fixed", features = [
-    "full",
-] }
+tokio = { version = "1", features = ["full"] }

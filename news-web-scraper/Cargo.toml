@@ -7,26 +7,9 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.72"
-reqwest = { git = "https://github.com/wasix-org/reqwest.git", default-features = false, features = [
-    "blocking",
-    "rustls-tls",
-] }
-tokio = { version = "=1.24.2", git = "https://github.com/wasix-org/tokio.git", branch = "epoll", default-features = false, features = [
-    "rt-multi-thread",
-    "macros",
-    "fs",
-    "io-util",
-    "net",
-    "signal",
-] }
-hyper = { git = "https://github.com/wasix-org/hyper.git", branch = "v0.14.27", features = [
-    "server",
-] }
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
+axum = "0.8"
 scraper = "0.17.1"
 colored = "2"
 
-[patch.crates-io]
-socket2 = { git = "https://github.com/wasix-org/socket2.git", branch = "v0.4.9" }
-tokio = { git = "https://github.com/wasix-org/tokio.git", branch = "epoll" }
-rustls = { git = "https://github.com/wasix-org/rustls.git", branch = "v0.21.5" }
-hyper = { git = "https://github.com/wasix-org/hyper.git", branch = "v0.14.27" }

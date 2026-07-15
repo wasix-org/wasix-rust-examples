@@ -1,0 +1,9 @@
+# Resolve crates through the WASIX overlay registry: WASIX-specific
+# forks come from the registry, everything else from crates.io.
+# Written by cargo-wasix.
+
+[source.crates-io]
+replace-with = "wasix"
+
+[source.wasix]
+registry = "sparse+https://cargo-registry.wasix.org/"
