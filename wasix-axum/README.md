@@ -11,11 +11,13 @@ $ cargo wasix build --release
 ## Running the project
 
 ```bash
-$ wasmer run target/wasm32-wasmer-wasi/release/wasix-axum.wasm --net
+$ cargo wasix run --release -W,--net
 Listening on http://127.0.0.1:8080
 ```
 
-> Note: The `PORT` environment variable is required to run the server locally. On edge this defaults to 80 because Wasmer edge expects the server to listen on port 80 and it will proxy the request to the server.
+> Note: `-W,` passes the comma-separated flags after it through to the Wasmer runtime — here `--net`, which enables networking.
+>
+> The server listens on the `PORT` environment variable and defaults to 8080 locally. On edge, set it to 80 because Wasmer edge expects the server to listen on port 80 and proxies requests to it.
 
 ## Deploy to Wasmer Edge
 

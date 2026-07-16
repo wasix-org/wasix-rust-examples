@@ -13,7 +13,7 @@ cargo wasix build
 ### Server
 
 ```shell
-$ wasmer run target/wasm32-wasmer-wasi/debug/helloworld-server.wasm --net --enable-threads
+$ cargo wasix run --bin helloworld-server -W,--net
 Server listening on 127.0.0.1:50051
 ```
 
@@ -22,7 +22,7 @@ Server listening on 127.0.0.1:50051
 > Note: The client works only for IPv4 addresses.
 
 ```shell
-$ wasmer run target/wasm32-wasmer-wasi/debug/helloworld-client.wasm --net --enable-threads
+$ cargo wasix run --bin helloworld-client -W,--net
 
 RESPONSE=Response { metadata: MetadataMap { headers: {"content-type": "application/grpc", "date": "Sat, 12 Aug 2023 23:48:29 GMT", "grpc-status": "0"} }, message: HelloReply { message: "Hello Tonic!" }, extensions: Extensions }
 ```

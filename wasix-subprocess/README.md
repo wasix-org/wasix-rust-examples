@@ -13,16 +13,10 @@ cargo wasix build
 ### Running the application
 
 ```shell
-wasmer run ./target/wasm32-wasmer-wasi/debug/wasix-subprocess.wasm --use sharrattj/coreutils
+cargo wasix run -W,--use,sharrattj/coreutils
 ```
 
-or
-
-```shell
-wasmer run .
-```
-
-> The above command works using the `wasmer.toml` and the one above that is more explicit.
+> `-W,` passes the comma-separated flags after it through to the Wasmer runtime — here `--use`, which loads the coreutils commands the example spawns.
 
 #### Output
 
