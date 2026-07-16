@@ -11,7 +11,7 @@ cargo wasix build
 ## Run
 
 ```bash
-wasmer run . --net
+cargo wasix run -W,--net
 ```
 
 ## Deploy to wasmer edge

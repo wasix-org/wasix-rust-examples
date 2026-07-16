@@ -37,7 +37,7 @@ This will compile the project to WASIX and output the compiled binary to `target
 To run the compiled binary, run the following command:
 
 ```bash
-wasmer run target/wasm32-wasmer-wasi/release/news-scraper.wasm --net
+cargo wasix run --release -W,--net
 ```
 
 This will run the compiled binary on port 8080. You can then access the web scraper at `http://localhost:8080` using curl or a web browser.

@@ -43,7 +43,7 @@ $ cargo wasix build --release
 ### Using source code
 
 ```shell
-$ wasmer run target/wasm32-wasmer-wasi/release/wasix-htmx.wasm --net --mapdir /assets:./assets
+$ cargo wasix run --release -W,--net,--volume,./assets:/assets
 ```
 
 ### Using Published Package

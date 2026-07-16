@@ -11,13 +11,13 @@ $ cargo wasix build --release
 ## Running the server
 
 ```bash
-$ wasmer run target/wasm32-wasmer-wasi/release/helloworld-server.wasm --net --enable-threads --volume ./tls:/tls
+$ cargo wasix run --release --bin helloworld-server -W,--net,--volume,./tls:/tls
 ```
 
 ## Running the client
 
 ```bash
-$ wasmer run target/wasm32-wasmer-wasi/release/helloworld-client.wasm --net --enable-threads --volume ./tls:/tls
+$ cargo wasix run --release --bin helloworld-client -W,--net,--volume,./tls:/tls
 ```
 
 You can also follow this example as a tutorial on the [WASIX website](http://wasix.org/docs/language-guide/rust/tutorials/wasix-grpc)
