@@ -1,8 +1,7 @@
-use hyper::server::conn::Http;
-use tokio_rustls::rustls::{OwnedTrustAnchor, RootCertStore, ServerConfig};
-use tonic::{transport::Server, Request, Response, Status};
+use tonic::transport::{Identity, Server, ServerTlsConfig};
+use tonic::{Request, Response, Status};
 
-use hello_world::greeter_server::Greeter;
+use hello_world::greeter_server::{Greeter, GreeterServer};
 use hello_world::{HelloReply, HelloRequest};
 
 use tokio::sync::mpsc;
@@ -12,14 +11,6 @@ use std::error::Error;
 use std::io::ErrorKind;
 use std::pin::Pin;
 use std::time::Duration;
-
-use std::sync::Arc;
-use tokio::net::TcpListener;
-use tokio_rustls::{
-    rustls::{Certificate, PrivateKey},
-    TlsAcceptor,
-};
-use tower_http::ServiceBuilderExt;
 
 pub mod hello_world {
     tonic::include_proto!("helloworld"); // The string specified here must match the proto package name
@@ -34,14 +25,6 @@ fn match_for_io_error(err_status: &Status) -> Option<&std::io::Error> {
         if let Some(io_err) = err.downcast_ref::<std::io::Error>() {
             return Some(io_err);
         }
-
-        // h2::Error do not expose std::io::Error with `source()`
-        // https://github.com/hyperium/h2/pull/462
-        // if let Some(h2_err) = err.downcast_ref::<h2::Error>() {
-        // if let Some(io_err) = h2_err.get_io() {
-        // return Some(io_err);
-        // }
-        // }
 
         err = match err.source() {
             Some(err) => err,
@@ -165,91 +148,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         std::path::PathBuf::from(std::env!("CARGO_MANIFEST_DIR"))
     };
 
-    let certs = {
-        let fd = std::fs::File::open(data_dir.join("tls/server.pem"))?;
-        let mut buf = std::io::BufReader::new(&fd);
-        rustls_pemfile::certs(&mut buf)?
-            .into_iter()
-            .map(Certificate)
-            .collect()
-    };
-    let key = {
-        let fd = std::fs::File::open(data_dir.join("tls/server.key"))?;
-        let mut buf = std::io::BufReader::new(&fd);
-        rustls_pemfile::pkcs8_private_keys(&mut buf)?
-            .into_iter()
-            .map(PrivateKey)
-            .next()
-            .unwrap()
+    let cert = std::fs::read_to_string(data_dir.join("tls/server.pem"))?;
+    let key = std::fs::read_to_string(data_dir.join("tls/server.key"))?;
+    let identity = Identity::from_pem(cert, key);
 
-        // let key = std::fs::read(data_dir.join("tls/server.key"))?;
-        // PrivateKey(key)
-    };
+    let addr = "127.0.0.1:50051".parse()?;
+    eprintln!("Server listening on {}", addr);
 
-    let mut tls = ServerConfig::builder()
-        .with_safe_defaults()
-        .with_no_client_auth()
-        .with_single_cert(certs, key)?;
-    tls.alpn_protocols = vec![b"h2".to_vec()];
+    Server::builder()
+        .tls_config(ServerTlsConfig::new().identity(identity))?
+        .add_service(GreeterServer::new(MyGreeter::default()))
+        .serve(addr)
+        .await?;
 
-    let server = MyGreeter::default();
-
-    let svc = Server::builder()
-        .add_service(hello_world::greeter_server::GreeterServer::new(server))
-        .into_service();
-
-    let mut http = Http::new();
-    http.http2_only(true);
-
-    let listener = TcpListener::bind("127.0.0.1:50051").await?;
-    let tls_acceptor = TlsAcceptor::from(Arc::new(tls));
-
-    eprintln!("Server listening on {}", listener.local_addr()?);
-
-    loop {
-        let (conn, addr) = match listener.accept().await {
-            Ok(incoming) => incoming,
-            Err(e) => {
-                eprintln!("Error accepting connection: {}", e);
-                continue;
-            }
-        };
-
-        let http = http.clone();
-        let tls_acceptor = tls_acceptor.clone();
-        let svc = svc.clone();
-
-        tokio::spawn(async move {
-            let mut certificates = Vec::new();
-
-            let conn = tls_acceptor
-                .accept_with(conn, |info| {
-                    if let Some(certs) = info.peer_certificates() {
-                        for cert in certs {
-                            certificates.push(cert.clone());
-                        }
-                    }
-                })
-                .await
-                .unwrap();
-
-            let svc = tower::ServiceBuilder::new()
-                .add_extension(Arc::new(ConnInfo { addr, certificates }))
-                .service(svc);
-
-            http.serve_connection(conn, svc)
-                .await
-                .map_err(|e| {
-                    eprintln!("Error serving connection: {}", e);
-                    e
-                })
-                .unwrap();
-        });
-    }
-}
-
-#[derive(Debug)]
-struct ConnInfo {
-    addr: std::net::SocketAddr,
-    certificates: Vec<Certificate>,
+    Ok(())
 }

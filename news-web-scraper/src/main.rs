@@ -1,49 +1,44 @@
-use hyper::service::{make_service_fn, service_fn};
-use hyper::{Body, Request, Response, Server, StatusCode};
-use std::convert::Infallible;
-use std::net::SocketAddr;
+use axum::{body::Body, http::StatusCode, response::Response, routing::any, Router};
 
 mod news_scraper;
 
-async fn handle(_req: Request<Body>) -> Result<Response<Body>, Infallible> {
+async fn handle() -> Response {
     let url = "https://news.ycombinator.com/";
-    let mut status = StatusCode::OK;
 
-    let page = match async { reqwest::get(url).await?.text().await }.await {
-        Ok(b) => b,
+    let (status, page) = match fetch(url).await {
+        Ok(page) => (StatusCode::OK, page),
         Err(err) => {
-            status = err.status().unwrap_or(StatusCode::BAD_REQUEST);
-            format!("{err}")
+            let status = err.status().unwrap_or(StatusCode::BAD_GATEWAY);
+            return Response::builder()
+                .status(status)
+                .body(Body::from(err.to_string()))
+                .unwrap();
         }
     };
 
     let mut news = news_scraper::NewsScraper::new();
     news.scrape(page);
-    let response = news.get_news();
-    let body = String::from_utf8_lossy(response.as_bytes()).to_string();
+    let body = news.get_news();
 
-    let mut res = Response::new(Body::from(body));
-    *res.status_mut() = status;
-    Ok(res)
+    Response::builder()
+        .status(status)
+        .body(Body::from(body))
+        .unwrap()
+}
+
+async fn fetch(url: &str) -> Result<String, reqwest::Error> {
+    reqwest::get(url).await?.text().await
 }
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     // check if there's an environment variable for the port
     let port = std::env::var("PORT").unwrap_or_else(|_| "8080".to_string());
-    // parse the port into a u16
     let port = port.parse::<u16>()?;
 
-    let addr = SocketAddr::from(([127, 0, 0, 1], port));
-
-    println!("Listening on {}", addr);
-
-    // And a MakeService to handle each connection...
-    let make_service = make_service_fn(|_conn| async { Ok::<_, Infallible>(service_fn(handle)) });
-
-    // Then bind and serve...
-    let server = Server::bind(&addr).serve(make_service);
-
-    // And run forever...
-    Ok(server.await?)
+    let app = Router::new().fallback(any(handle));
+    let listener = tokio::net::TcpListener::bind(("127.0.0.1", port)).await?;
+    println!("Listening on http://127.0.0.1:{port}");
+    axum::serve(listener, app).await?;
+    Ok(())
 }

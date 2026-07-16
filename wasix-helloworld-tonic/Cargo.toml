@@ -12,17 +12,10 @@ name = "helloworld-client"
 path = "src/client.rs"
 
 [dependencies]
-tonic = "0.9"
-prost = "0.11"
-tokio = { version = "=1.24.2", git = "https://github.com/wasix-org/tokio.git", branch = "epoll", default-features = false, features = [
-    "full",
-] }
-libc = { version = "0.2.139", git = "https://github.com/wasix-org/libc.git", branch = "master" }
+tonic = "0.14"
+tonic-prost = "0.14"
+prost = "0.14"
+tokio = { version = "1", features = ["full"] }
 
 [build-dependencies]
-tonic-build = "0.9"
-
-[patch.crates-io]
-socket2 = { git = "https://github.com/wasix-org/socket2.git", branch = "v0.4.9" }
-tokio = { git = "https://github.com/wasix-org/tokio.git", branch = "epoll" }
-hyper = { git = "https://github.com/wasix-org/hyper.git", branch = "v0.14.27" }
+tonic-prost-build = "0.14"
